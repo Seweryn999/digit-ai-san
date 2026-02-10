@@ -2,9 +2,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
 import numpy as np
+import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 model = tf.keras.models.load_model("training/model.h5")
 
@@ -14,15 +15,12 @@ def predict():
 
     img = np.array(data).reshape(1, 28, 28).astype("float32")
 
-    print("MIN:", np.min(img))
-    print("MAX:", np.max(img))
-    print("SUM:", np.sum(img))
-
     pred = model.predict(img)
     result = int(np.argmax(pred))
 
     return jsonify({"digit": result})
 
 
-app.run(host="127.0.0.1", port=5000)
-
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)

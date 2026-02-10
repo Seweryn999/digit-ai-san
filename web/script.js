@@ -1,7 +1,6 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// czarne tło na start
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -16,7 +15,7 @@ function draw(e) {
   if (!drawing) return;
   ctx.fillStyle = "white";
   ctx.beginPath();
-  ctx.arc(e.offsetX, e.offsetY, 14, 0, Math.PI * 2); // grubszy pędzel
+  ctx.arc(e.offsetX, e.offsetY, 14, 0, Math.PI * 2);
   ctx.fill();
 }
 
@@ -32,7 +31,6 @@ function send() {
   small.height = 28;
   const sctx = small.getContext("2d");
 
-  // pobieramy dane z głównego canvas
   const imgDataFull = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const data = imgDataFull.data;
 
@@ -41,7 +39,6 @@ function send() {
   let maxX = 0,
     maxY = 0;
 
-  // znajdź bounding box białych pikseli
   for (let y = 0; y < canvas.height; y++) {
     for (let x = 0; x < canvas.width; x++) {
       let i = (y * canvas.width + x) * 4;
@@ -55,14 +52,11 @@ function send() {
     }
   }
 
-  // jeśli nic nie narysowano
   if (minX > maxX || minY > maxY) return;
 
-  // wytnij tylko cyfrę
   const w = maxX - minX;
   const h = maxY - minY;
 
-  // wycentruj na 28x28
   sctx.fillStyle = "black";
   sctx.fillRect(0, 0, 28, 28);
 
