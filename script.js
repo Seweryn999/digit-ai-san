@@ -71,7 +71,7 @@ function send() {
     input.push(r / 255);
   }
 
-  fetch("https://digit-ai-san.onrender.com/", {
+  fetch("https://digit-ai-san.onrender.com/predict", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ image: input }),
