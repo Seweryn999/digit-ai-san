@@ -5,9 +5,13 @@ import numpy as np
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 model = tf.keras.models.load_model("training/model.h5")
+
+@app.route("/predict", methods=["OPTIONS"])
+def predict_options():
+    return '', 200
 
 @app.route("/predict", methods=["POST"])
 def predict():
